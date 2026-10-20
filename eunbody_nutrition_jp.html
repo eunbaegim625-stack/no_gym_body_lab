@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>EUNBODY – 栄養・生活習慣チェック（日本語）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { background:#000; color:#fff; font-family:Arial, sans-serif; margin:0; padding:20px; }
+    .container { max-width:700px; margin:0 auto; }
+    .step { display:none; }
+    .active { display:block; }
+    button {
+      background:#ff652f; border:none; padding:10px 20px;
+      color:#fff; font-size:16px; border-radius:8px; cursor:pointer; margin-top:20px;
+    }
+    .option {
+      padding:12px; margin:10px 0; border-radius:8px;
+      background:#111; border:1px solid #555; cursor:pointer;
+    }
+    .option.selected { border-color:#ff652f; background:#331b14; }
+    .progress { height:6px; background:#333; border-radius:4px; margin-bottom:20px; }
+    .progress-inner {
+      height:6px; background:#ff652f; width:0%; border-radius:4px;
+      transition:0.3s ease;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <h2 style="text-align:center;">EUNBODY 栄養・睡眠・生活習慣チェック</h2>
+  <p style="text-align:center;">あなたの回答をもとに、現実的なトレーニングと食事内容を最適化します。</p>
+  <div class="progress"><div class="progress-inner" id="prog"></div></div>
+
+  <!-- STEP 1 -->
+  <div class="step active">
+    <h3>なぜ多くの人はトレーニングを続けられないのか？</h3>
+    <p><strong>理由：最初から強度が高すぎるから。</strong></p>
+    <p>初日から「完璧なトレーニング＋完璧な食事」を求めると、1〜2週間で燃え尽きてしまいます。</p>
+    <p>EUNBODY のゴールは<strong>長く続けられる習慣</strong>です。</p>
+    <button onclick="nextStep()">次へ</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step">
+    <h3>結果の 50％以上は「食事」で決まります。</h3>
+    <p>効率的に増量 or 脂肪燃焼したいなら：</p>
+    <ul>
+      <li>目標に合った総摂取カロリー</li>
+      <li>筋肉の修復と成長に必要なタンパク質</li>
+    </ul>
+    <p>それでは簡単にチェックしていきましょう！</p>
+    <button onclick="nextStep()">スタート</button>
+  </div>
+
+  <!-- STEP 3: Eating style -->
+  <div class="step">
+    <h3>あなたの「食事スタイル」に一番近いのは？</h3>
+    <div class="option" onclick="selectOption(this,'食事タイプ')">感情食い（嬉しい・悲しい・ストレス時）</div>
+    <div class="option" onclick="selectOption(this,'食事タイプ')">暇つぶしで食べてしまう</div>
+    <div class="option" onclick="selectOption(this,'食事タイプ')">ながら食い／無意識に食べ過ぎる</div>
+    <div class="option" onclick="selectOption(this,'食事タイプ')">習慣的に同じ食事をしている</div>
+    <button onclick="nextStep()">次へ</button>
+  </div>
+
+  <!-- STEP 4: Protein -->
+  <div class="step">
+    <h3>1日のタンパク質は十分だと思いますか？</h3>
+    <div class="option" onclick="selectOption(this,'タンパク質摂取')">はい、意識している</div>
+    <div class="option" onclick="selectOption(this,'タンパク質摂取')">いいえ、よく分からない</div>
+    <div class="option" onclick="selectOption(this,'タンパク質摂取')">分からない</div>
+    <button onclick="nextStep()">次へ</button>
+  </div>
+
+  <!-- STEP 5: Water -->
+  <div class="step">
+    <h3>1日にどれくらい水を飲みますか？</h3>
+    <div class="option" onclick="selectOption(this,'水分量')">ほとんどコーヒー／お茶 ☕</div>
+    <div class="option" onclick="selectOption(this,'水分量')">2杯未満 💧</div>
+    <div class="option" onclick="selectOption(this,'水分量')">2〜6杯 💧💧</div>
+    <div class="option" onclick="selectOption(this,'水分量')">7〜10杯 💧💧💧</div>
+    <div class="option" onclick="selectOption(this,'水分量')">10杯以上 ⚡</div>
+    <button onclick="nextStep()">次へ</button>
+  </div>
+
+  <!-- STEP 6: Sleep -->
+  <div class="step">
+    <h3>平均睡眠時間は？</h3>
+    <div class="option" onclick="selectOption(this,'睡眠時間')">5時間未満 😵</div>
+    <div class="option" onclick="selectOption(this,'睡眠時間')">5〜6時間 😑</div>
+    <div class="option" onclick="selectOption(this,'睡眠時間')">7〜8時間 🙂</div>
+    <div class="option" onclick="selectOption(this,'睡眠時間')">8時間以上 😴</div>
+    <button onclick="nextStep()">次へ</button>
+  </div>
+
+  <!-- STEP 7: Steps -->
+  <div class="step">
+    <h3>1日の平均歩数は？</h3>
+    <div class="option" onclick="selectOption(this,'歩数')">5,000歩未満</div>
+    <div class="option" onclick="selectOption(this,'歩数')">5,000〜10,000歩</div>
+    <div class="option" onclick="selectOption(this,'歩数')">10,000〜15,000歩</div>
+    <div class="option" onclick="selectOption(this,'歩数')">15,000〜20,000歩</div>
+    <div class="option" onclick="selectOption(this,'歩数')">20,000歩以上 🔥</div>
+    <button onclick="nextStep()">次へ</button>
+  </div>
+
+  <!-- STEP 8: Issues -->
+  <div class="step">
+    <h3>トレーニングが続かなかった理由は？（複数選択可）</h3>
+    <div class="option" onclick="toggleCheck(this,'妨げ')">モチベーションが保てなかった</div>
+    <div class="option" onclick="toggleCheck(this,'妨げ')">変化が見えなかった</div>
+    <div class="option" onclick="toggleCheck(this,'妨げ')">ジムが苦手・周囲が気になる</div>
+    <div class="option" onclick="toggleCheck(this,'妨げ')">計画なしで適当にやっていた</div>
+    <div class="option" onclick="toggleCheck(this,'妨げ')">強度が高すぎた</div>
+    <div class="option" onclick="toggleCheck(this,'妨げ')">指導が合わなかった</div>
+    <div class="option" onclick="toggleCheck(this,'妨げ')">特になし</div>
+    <button onclick="nextStep()">結果を見る</button>
+  </div>
+
+  <!-- FINISH -->
+  <div class="step" id="finish">
+    <h2 style="text-align:center; color:#ff652f;">100%</h2>
+    <h3 style="text-align:center;">完了！</h3>
+    <p><strong>EUNBODY 栄養・生活習慣まとめ：</strong></p>
+    <div id="result-box"></div>
+  </div>
+
+</div>
+
+<script>
+let current = 0;
+let answers = {};
+
+const steps = document.querySelectorAll(".step");
+const progress = document.getElementById("prog");
+const resultBox = document.getElementById("result-box");
+
+function updateProgress() {
+  progress.style.width = (current / (steps.length - 1)) * 100 + "%";
+}
+
+function showStep(idx) {
+  steps.forEach(step => step.classList.remove("active"));
+  steps[idx].classList.add("active");
+  updateProgress();
+}
+
+function nextStep() {
+  if (current < steps.length - 1) {
+    current++;
+    if (current === steps.length - 1) {
+      showResult();
+    }
+    showStep(current);
+  }
+}
+
+function selectOption(el, key) {
+  let opts = el.parentNode.querySelectorAll(".option");
+  opts.forEach(o => o.classList.remove("selected"));
+  el.classList.add("selected");
+  answers[key] = el.innerText;
+}
+
+function toggleCheck(el, key) {
+  el.classList.toggle("selected");
+  if (!answers[key]) answers[key] = [];
+  if (el.classList.contains("selected")) {
+    answers[key].push(el.innerText);
+  } else {
+    answers[key] = answers[key].filter(v => v !== el.innerText);
+  }
+}
+
+function showResult() {
+  let html = "";
+  Object.entries(answers).forEach(([k, v]) => {
+    if (Array.isArray(v)) v = v.join("、");
+    html += `<p><strong>${k}</strong>：${v}</p>`;
+  });
+  resultBox.innerHTML = html || "<p>選択なし</p>";
+}
+</script>
+</body>
+</html>

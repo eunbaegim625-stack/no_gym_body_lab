@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>EUNBODY – 경험 & 능력 설문 (KO)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #05070a;
+      --card: #11141b;
+      --accent: #ff7a3c;
+      --accent-soft: rgba(255, 122, 60, 0.15);
+      --text: #f5f7ff;
+      --muted: #949bb5;
+      --radius-xl: 18px;
+      --radius-lg: 12px;
+      --shadow-card: 0 18px 40px rgba(0, 0, 0, 0.6);
+      --transition-fast: 0.18s ease-out;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body {
+      background: radial-gradient(circle at top, #0c1220 0, #020308 55%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .app {
+      width: 100%;
+      max-width: 900px;
+      background: linear-gradient(145deg, #060910, #060814);
+      border-radius: 24px;
+      box-shadow: var(--shadow-card);
+      padding: 24px 24px 28px;
+      border: 1px solid rgba(255, 122, 60, 0.35);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 24px;
+    }
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: 1fr; }
+      .hero { order: -1; }
+    }
+    .header {
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-mark {
+      width: 34px; height: 34px; border-radius: 999px;
+      background: radial-gradient(circle at 30% 10%, #ffc58f 0, #ff7a3c 35%, #4b1c08 80%);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 16px; letter-spacing: 0.03em;
+    }
+    .logo-text { font-weight: 700; font-size: 14px; letter-spacing: 0.1em; }
+    .badge {
+      font-size: 11px; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 999px;
+      border: 1px solid rgba(148, 155, 181, 0.5); color: var(--muted);
+    }
+    .title { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+    .subtitle { font-size: 14px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+    .progress-bar-wrapper { margin: 10px 0 14px; }
+    .progress-label-row {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--muted); margin-bottom: 6px;
+    }
+    .progress { width: 100%; height: 7px; border-radius: 999px; background: #151724; overflow: hidden; }
+    .progress-inner {
+      height: 100%; width: 0%; border-radius: 999px;
+      background: linear-gradient(90deg, #ffb65f, #ff7a3c);
+      box-shadow: 0 0 12px rgba(255, 122, 60, 0.7);
+      transition: width 0.25s ease-out;
+    }
+    .card {
+      background: radial-gradient(circle at top, #141a2b 0, #0a0c14 70%);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      border: 1px solid rgba(255, 122, 60, 0.4);
+    }
+    .card-question { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+    .card-help { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option-btn {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(70, 88, 160, 0.7);
+      background: rgba(5, 9, 24, 0.8);
+      padding: 10px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition-fast);
+    }
+    .option-btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .option-btn.selected { border-color: var(--accent); background: var(--accent-soft); }
+    .option-main { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+    .option-icon { font-size: 18px; }
+    .checkbox {
+      width: 18px; height: 18px; border-radius: 5px;
+      border: 1px solid rgba(120, 131, 188, 0.8);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 13px; color: var(--accent); background: rgba(3, 7, 18, 0.9);
+    }
+    .checkbox.checked { border-color: var(--accent); background: var(--accent-soft); }
+    .nav-row { display: flex; justify-content: space-between; margin-top: 14px; }
+    #btn-prev {
+      background: transparent; color: var(--muted);
+      border: 1px solid rgba(108, 120, 176, 0.7);
+      padding: 8px 14px; font-size: 13px; border-radius: 999px; cursor: pointer;
+    }
+    #btn-next {
+      background: linear-gradient(90deg, #ffb65f, #ff7a3c);
+      color: #030510; padding: 9px 18px; font-size: 13px; font-weight: 700;
+      border-radius: 999px; cursor: pointer; border: none;
+    }
+    #btn-next[disabled] { opacity: 0.4; cursor: default; }
+
+    .hero {
+      border-radius: 22px; padding: 16px; font-size: 13px;
+      background: radial-gradient(circle at 10% 0, rgba(255, 159, 92, 0.55) 0, #050814 55%);
+      border: 1px solid rgba(255, 188, 120, 0.6); color: #ffeada;
+    }
+    .hero-tag { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; }
+    .hero-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .hero-sub { font-size: 13px; margin-bottom: 10px; line-height: 1.5; }
+    .hero-footer { font-size: 11px; color: #ffeede; }
+    .hero-footer span { font-weight: 700; }
+
+    .number-input {
+      width: 100%; padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #6070b8;
+      background: #0d1022;
+      color: white;
+      font-size: 14px;
+      outline: none;
+    }
+    .two-inputs { display: flex; flex-direction: column; gap: 8px; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="grid">
+      <div>
+        <div class="header">
+          <div class="logo">
+            <div class="logo-mark">EB</div>
+            <div class="logo-text">EUNBODY</div>
+          </div>
+          <div class="badge">STRENGTH PROFILE</div>
+        </div>
+
+        <div class="title">당신의 현재 레벨을 알려 주세요</div>
+        <div class="subtitle">
+          키, 몸무게, 푸시업/턱걸이 개수, 활동량을 기반으로<br />
+          현실적인 운동 강도와 볼륨을 추천합니다.
+        </div>
+
+        <div class="progress-bar-wrapper">
+          <div class="progress-label-row">
+            <span id="progress-text">질문 1 / 10</span>
+            <span id="progress-percent">0%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-inner" id="progress-inner"></div>
+          </div>
+        </div>
+
+        <div class="card" id="card-quiz">
+          <div class="card-question" id="question-text"></div>
+          <div class="card-help" id="question-help"></div>
+          <div class="options" id="options-container"></div>
+
+          <div class="nav-row">
+            <button id="btn-prev">← 이전</button>
+            <button id="btn-next">다음 →</button>
+          </div>
+        </div>
+
+        <div class="card hidden" id="card-result">
+          <h3 style="margin-bottom:8px;">EUNBODY 레벨 요약</h3>
+          <div id="result-body" style="font-size:13px;line-height:1.6;margin-bottom:4px;"></div>
+          <p style="font-size:12px;color:#b6c4ff;">
+            이 요약을 기반으로 메인 프로그램(영어/한국어 설문)에서 세트 수·운동 강도를 세밀하게 조정할 수 있습니다.
+          </p>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="hero-tag">CHECK-IN</div>
+        <div class="hero-title">“지금의 나”를 정확히 아는 것부터</div>
+        <div class="hero-sub">
+          과장된 목표보다, 현재 레벨에 맞는 계획이 훨씬 빠른 결과를 만듭니다.<br />
+          이 설문은 당신을 평가하기 위한 것이 아니라, 지치지 않고 갈 수 있는 강도를 찾기 위한 체크입니다.
+        </div>
+        <div class="hero-footer">
+          총 <span>10개 질문</span>이며, <span>1–2분</span>이면 끝납니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const steps = [
+      {
+        id: "height",
+        type: "inputNumber",
+        question: "현재 키는 몇 cm 인가요?",
+        help: "예: 174 라고만 입력하면 됩니다. (단위: cm)"
+      },
+      {
+        id: "weights",
+        type: "twoNumbers",
+        question: "현재 체중과 목표 체중을 알려 주세요.",
+        help: "근육 증가 / 체지방 감량 속도를 계산할 때 참고합니다."
+      },
+      {
+        id: "experience",
+        type: "single",
+        question: "웨이트 트레이닝 경험은 어느 정도인가요?",
+        help: "운동 난이도와 기술 설명의 깊이를 조정합니다.",
+        options: [
+          { value: "beginner", label: "완전 초보 · 막 시작했다", icon: "🌱" },
+          { value: "intermediate", label: "중급 · 기본 운동은 익숙하다", icon: "💪" },
+          { value: "advanced", label: "상급 · 수년째 꾸준히 해왔다", icon: "🔥" }
+        ]
+      },
+      {
+        id: "focusAreas",
+        type: "multi",
+        question: "어느 부위를 특히 집중해서 바꾸고 싶나요? (복수 선택)",
+        help: "선택한 부위에 더 많은 볼륨과 빈도를 배치합니다.",
+        options: [
+          { value: "chest", label: "가슴이 약하다", icon: "🏋️‍♂️" },
+          { value: "arms", label: "팔이 가늘다", icon: "💪" },
+          { value: "belly", label: "뱃살 / 술배", icon: "🍺" },
+          { value: "legs", label: "하체가 약하다", icon: "🏃‍♂️" },
+          { value: "glutes", label: "엉덩이 볼륨", icon: "🍑" },
+          { value: "lovehandles", label: "옆구리 살", icon: "➰" }
+        ]
+      },
+      {
+        id: "injuries",
+        type: "multiExclusiveNone",
+        question: "현재 조심해야 할 통증이나 부상이 있나요?",
+        help: "해당 부위에 부담이 큰 동작은 피하거나 대체 운동으로 제공합니다.",
+        options: [
+          { value: "knee", label: "무릎이 민감하다", icon: "🦵" },
+          { value: "back", label: "허리가 민감하다", icon: "🦴" },
+          { value: "shoulder", label: "어깨가 민감하다", icon: "🩹" },
+          { value: "none", label: "특별한 부상 없음", icon: "✅" }
+        ]
+      },
+      {
+        id: "freq3months",
+        type: "single",
+        question: "지난 3개월 동안, 평균적으로 얼마나 자주 운동했나요?",
+        help: "현재 체력 수준과 회복 능력을 가늠하는 기준입니다.",
+        options: [
+          { value: "none", label: "거의/전혀 하지 않았다", icon: "😴" },
+          { value: "1-2", label: "주 1–2회 정도", icon: "💪" },
+          { value: "3", label: "주 3회 이상", icon: "💪⚡" },
+          { value: "4plus", label: "주 4회 이상 꾸준히", icon: "🏆" }
+        ]
+      },
+      {
+        id: "pushups",
+        type: "single",
+        question: "한 세트에 푸시업을 몇 개 정도 할 수 있나요?",
+        help: "상체/코어 기본 체력을 파악하기 위한 질문입니다.",
+        options: [
+          { value: "lt10", label: "10개 미만", icon: "🙂" },
+          { value: "10-20", label: "10–20개", icon: "💪" },
+          { value: "21-30", label: "21–30개", icon: "💪💪" },
+          { value: "30plus", label: "30개 이상", icon: "🔥" }
+        ]
+      },
+      {
+        id: "pullups",
+        type: "single",
+        question: "한 세트에 턱걸이는 몇 개 정도 가능하나요?",
+        help: "등·팔·코어의 상대 체력을 파악합니다.",
+        options: [
+          { value: "cant", label: "아직 1개도 못 한다", icon: "😅" },
+          { value: "lt5", label: "5개 미만", icon: "🔥" },
+          { value: "5-10", label: "5–10개", icon: "🔥🔥" },
+          { value: "10plus", label: "10개 이상", icon: "🔥🔥🔥" }
+        ]
+      },
+      {
+        id: "daytype",
+        type: "single",
+        question: "평소 하루 활동량은 어떤 편인가요?",
+        help: "NEAT(일상 활동량)를 고려해 총 칼로리 소모를 예측합니다.",
+        options: [
+          { value: "sitting", label: "대부분 앉아서 보낸다", icon: "💻" },
+          { value: "activeBreaks", label: "중간중간 자주 움직인다", icon: "🚶‍♂️" },
+          { value: "onFeet", label: "하루 종일 서 있거나 걸어다닌다", icon: "🧱" }
+        ]
+      },
+      {
+        id: "otherSports",
+        type: "multi",
+        question: "웨이트 말고, 다른 활동도 하고 있나요? (복수 선택)",
+        help: "다른 운동과 충돌하지 않도록 휴식일과 볼륨을 조정합니다.",
+        options: [
+          { value: "sports", label: "구기종목 (농구·축구 등)", icon: "🏀" },
+          { value: "yoga", label: "요가 / 필라테스 / 스트레칭", icon: "🧘‍♂️" },
+          { value: "martial", label: "격투기 / 무술", icon: "🥊" },
+          { value: "endurance", label: "달리기 / 수영 / 자전거", icon: "🏃‍♂️" },
+          { value: "hiking", label: "등산", icon: "⛰️" },
+          { value: "none", label: "현재는 웨이트만 예정", icon: "✅" }
+        ]
+      },
+      {
+        id: "done",
+        type: "final",
+        question: "거의 다 됐습니다!",
+        help: "지금까지의 답변을 바탕으로 EUNBODY 레벨 요약을 보여 드립니다."
+      }
+    ];
+
+    let currentStep = 0;
+    const answers = {};
+
+    const questionText = document.getElementById("question-text");
+    const questionHelp = document.getElementById("question-help");
+    const optionsContainer = document.getElementById("options-container");
+    const btnPrev = document.getElementById("btn-prev");
+    const btnNext = document.getElementById("btn-next");
+    const progressInner = document.getElementById("progress-inner");
+    const progressText = document.getElementById("progress-text");
+    const progressPercent = document.getElementById("progress-percent");
+    const cardQuiz = document.getElementById("card-quiz");
+    const cardResult = document.getElementById("card-result");
+    const resultBody = document.getElementById("result-body");
+
+    function updateProgress() {
+      const total = steps.length;
+      const idx = Math.min(currentStep + 1, total);
+      const ratio = (idx / total) * 100;
+      progressInner.style.width = ratio.toFixed(0) + "%";
+      progressText.textContent = `질문 ${idx} / ${total}`;
+      progressPercent.textContent = `${ratio.toFixed(0)}%`;
+    }
+
+    function renderStep() {
+      const step = steps[currentStep];
+      updateProgress();
+
+      questionText.textContent = step.question;
+      questionHelp.textContent = step.help || "";
+      optionsContainer.innerHTML = "";
+      btnPrev.disabled = currentStep === 0;
+      btnNext.onclick = null;
+
+      if (step.type === "single" || step.type === "multi" || step.type === "multiExclusiveNone") {
+        step.options.forEach(opt => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "option-btn";
+          btn.dataset.value = opt.value;
+
+          const main = document.createElement("div");
+          main.className = "option-main";
+
+          let checkbox = null;
+          if (step.type !== "single") {
+            checkbox = document.createElement("div");
+            checkbox.className = "checkbox";
+            checkbox.textContent = "✓";
+            main.appendChild(checkbox);
+          }
+
+          const icon = document.createElement("span");
+          icon.className = "option-icon";
+          icon.textContent = opt.icon || "";
+
+          const label = document.createElement("span");
+          label.textContent = opt.label;
+
+          main.appendChild(icon);
+          main.appendChild(label);
+          btn.appendChild(main);
+
+          if (step.type === "single" && answers[step.id] === opt.value) {
+            btn.classList.add("selected");
+          }
+          if (step.type !== "single" && Array.isArray(answers[step.id]) && answers[step.id].includes(opt.value)) {
+            btn.classList.add("selected");
+            if (checkbox) checkbox.classList.add("checked");
+          }
+
+          btn.addEventListener("click", () => {
+            if (step.type === "single") {
+              document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
+              btn.classList.add("selected");
+              answers[step.id] = opt.value;
+            } else {
+              const isNone = opt.value === "none";
+              if (step.type === "multiExclusiveNone" || step.id === "otherSports") {
+                // 'none' 선택 시 다른 것 해제, 반대도 동일
+                if (isNone) {
+                  document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
+                  document.querySelectorAll(".checkbox").forEach(c => c.classList.remove("checked"));
+                  btn.classList.add("selected");
+                  if (checkbox) checkbox.classList.add("checked");
+                  answers[step.id] = ["none"];
+                } else {
+                  // none 해제
+                  document.querySelectorAll(".option-btn").forEach(b => {
+                    if (b.dataset.value === "none") b.classList.remove("selected");
+                  });
+                  document.querySelectorAll(".checkbox").forEach(c => {
+                    if (c.parentElement && c.parentElement.parentElement.dataset.value === "none") {
+                      c.classList.remove("checked");
+                    }
+                  });
+                  btn.classList.toggle("selected");
+                  if (checkbox) checkbox.classList.toggle("checked");
+                  const selectedValues = Array.from(
+                    document.querySelectorAll(".option-btn.selected")
+                  ).map(b => b.dataset.value);
+                  answers[step.id] = selectedValues;
+                }
+              } else {
+                btn.classList.toggle("selected");
+                if (checkbox) checkbox.classList.toggle("checked");
+                const selectedValues = Array.from(
+                  document.querySelectorAll(".option-btn.selected")
+                ).map(b => b.dataset.value);
+                answers[step.id] = selectedValues;
+              }
+            }
+          });
+
+          optionsContainer.appendChild(btn);
+        });
+
+        btnNext.onclick = () => {
+          if (step.type === "single") {
+            if (!answers[step.id]) {
+              alert("하나를 선택해 주세요.");
+              return;
+            }
+          } else {
+            const selected = answers[step.id] || [];
+            if (!selected.length) {
+              alert("최소 1개 이상 선택해 주세요.");
+              return;
+            }
+          }
+          goNext();
+        };
+      } else if (step.type === "inputNumber") {
+        const input = document.createElement("input");
+        input.type = "number";
+        input.placeholder = "예: 174";
+        input.className = "number-input";
+        if (answers[step.id]) input.value = answers[step.id];
+        optionsContainer.appendChild(input);
+
+        btnNext.onclick = () => {
+          const v = parseFloat(input.value);
+          if (!v) { alert("숫자를 입력해 주세요."); return; }
+          answers[step.id] = v;
+          goNext();
+        };
+      } else if (step.type === "twoNumbers") {
+        const wrap = document.createElement("div");
+        wrap.className = "two-inputs";
+
+        const cur = document.createElement("input");
+        cur.type = "number";
+        cur.placeholder = "현재 체중 (kg)";
+        cur.className = "number-input";
+
+        const tgt = document.createElement("input");
+        tgt.type = "number";
+        tgt.placeholder = "목표 체중 (kg)";
+        tgt.className = "number-input";
+
+        if (answers[step.id]) {
+          cur.value = answers[step.id].current || "";
+          tgt.value = answers[step.id].target || "";
+        }
+
+        wrap.appendChild(cur);
+        wrap.appendChild(tgt);
+        optionsContainer.appendChild(wrap);
+
+        btnNext.onclick = () => {
+          const c = parseFloat(cur.value);
+          const t = parseFloat(tgt.value);
+          if (!c || !t) { alert("현재/목표 체중을 모두 입력해 주세요."); return; }
+          answers[step.id] = { current: c, target: t };
+          goNext();
+        };
+      } else if (step.type === "final") {
+        optionsContainer.innerHTML =
+          '<div style="font-size:13px;color:#c4ccff;">"다음"을 누르면 지금까지의 답변을 정리한 요약을 보여 드립니다.</div>';
+        btnNext.onclick = () => goNext();
+      }
+    }
+
+    function goNext() {
+      if (currentStep < steps.length - 1) {
+        currentStep += 1;
+        renderStep();
+      } else {
+        showResult();
+      }
+    }
+
+    btnPrev.addEventListener("click", () => {
+      if (currentStep > 0) {
+        currentStep -= 1;
+        renderStep();
+      }
+    });
+
+    function showResult() {
+      cardQuiz.classList.add("hidden");
+      cardResult.classList.remove("hidden");
+
+      const h = answers.height;
+      const w = answers.weights || {};
+      const curW = w.current;
+      const tgtW = w.target;
+      let bmiText = "";
+      if (h && curW) {
+        const bmi = (curW / (h / 100) ** 2).toFixed(1);
+        bmiText = `현재 BMI는 약 <strong>${bmi}</strong> 입니다.`;
+      }
+
+      const expMap = {
+        beginner: "기본 동작부터 차근차근 배우는 초보자 프로그램",
+        intermediate: "볼륨 조절이 중요한 중급자 프로그램",
+        advanced: "강도와 기술을 세밀하게 다루는 상급자 프로그램"
+      };
+      const expDesc = expMap[answers.experience] || "레벨에 맞게 조절되는 프로그램";
+
+      const push = answers.pushups || "-";
+      const pull = answers.pullups || "-";
+
+      resultBody.innerHTML = `
+        <p><strong>1️⃣ 체격 & 체중</strong><br/>
+        키: ${h || "-"} cm · 현재 체중: ${curW || "-"} kg · 목표 체중: ${tgtW || "-"} kg<br/>
+        ${bmiText}</p>
+
+        <p style="margin-top:8px;"><strong>2️⃣ 경험 레벨</strong><br/>
+        선택한 레벨: <strong>${answers.experience || "-"}</strong><br/>
+        → ${expDesc}</p>
+
+        <p style="margin-top:8px;"><strong>3️⃣ 근력 지표</strong><br/>
+        푸시업: ${push} · 턱걸이: ${pull}</p>
+
+        <p style="margin-top:8px;"><strong>4️⃣ 집중 부위 / 부상 정보</strong><br/>
+        집중 부위: ${(answers.focusAreas || []).join(", ") || "-"}<br/>
+        조심해야 할 부위: ${(answers.injuries || []).join(", ") || "-"} </p>
+
+        <p style="margin-top:8px;"><strong>5️⃣ 활동량 & 다른 운동</strong><br/>
+        지난 3개월 빈도: ${answers.freq3months || "-"}<br/>
+        평소 활동 패턴: ${answers.daytype || "-"}<br/>
+        다른 활동: ${(answers.otherSports || []).join(", ") || "-"}</p>
+      `;
+    }
+
+    // 첫 화면 렌더링
+    renderStep();
+  </script>
+</body>
+</html>

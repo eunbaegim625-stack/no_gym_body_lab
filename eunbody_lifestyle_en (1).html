@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>EUNBODY – Diet · Sleep · Lifestyle Quiz (EN)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { background:#000; color:#fff; font-family:Arial, sans-serif; margin:0; padding:20px; }
+    .container { max-width:700px; margin:0 auto; }
+    .step { display:none; }
+    .active { display:block; }
+    button {
+      background:#ff652f; border:none; padding:10px 20px;
+      color:#fff; font-size:16px; border-radius:8px; cursor:pointer; margin-top:20px;
+    }
+    .option {
+      padding:12px; margin:10px 0; border-radius:8px;
+      background:#111; border:1px solid #555; cursor:pointer;
+    }
+    .option.selected { border-color:#ff652f; background:#331b14; }
+    .progress { height:6px; background:#333; border-radius:4px; margin-bottom:20px; }
+    .progress-inner {
+      height:6px; background:#ff652f; width:0%; border-radius:4px;
+      transition:0.3s ease;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <h2 style="text-align:center;">EUNBODY Diet · Sleep · Lifestyle Quiz</h2>
+  <p style="text-align:center;">Your answers will help us tailor better workout & nutrition content for you.</p>
+  <div class="progress"><div class="progress-inner" id="prog"></div></div>
+
+  <!-- STEP 1 -->
+  <div class="step active">
+    <h3>Why do most people quit working out?</h3>
+    <p><strong>Because they start too hard, too fast.</strong></p>
+    <p>Trying to be “perfect” with training and diet from day one leads to burnout in 1–2 weeks… and then they give up.</p>
+    <p>EUNBODY focuses on building <strong>routines you can keep</strong>, not 1-week transformations.</p>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step">
+    <h3>More than half of your results come from nutrition.</h3>
+    <p>To gain muscle and lose fat efficiently, you need:</p>
+    <ul>
+      <li>Daily calories aligned with your goal</li>
+      <li>Enough protein for recovery and growth</li>
+    </ul>
+    <p>Let’s quickly check your eating, sleep, and daily activity habits.</p>
+    <button onclick="nextStep()">Start</button>
+  </div>
+
+  <!-- STEP 3: Eating style -->
+  <div class="step">
+    <h3>Which eating style describes you best?</h3>
+    <div class="option" onclick="selectOption(this,'Eating style')">Emotional eater (eat when happy or stressed)</div>
+    <div class="option" onclick="selectOption(this,'Eating style')">Bored eater (snack when there’s nothing to do)</div>
+    <div class="option" onclick="selectOption(this,'Eating style')">Mindless eater (eat without noticing while on phone/TV)</div>
+    <div class="option" onclick="selectOption(this,'Eating style')">Habit eater (similar foods at similar times every day)</div>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 4: Protein -->
+  <div class="step">
+    <h3>Do you get enough protein daily?</h3>
+    <div class="option" onclick="selectOption(this,'Protein intake')">Yes, I roughly track protein and nutrients</div>
+    <div class="option" onclick="selectOption(this,'Protein intake')">No, I’m not sure what or how much to eat</div>
+    <div class="option" onclick="selectOption(this,'Protein intake')">Not sure</div>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 5: Water -->
+  <div class="step">
+    <h3>How much water do you drink per day?</h3>
+    <div class="option" onclick="selectOption(this,'Water intake')">Mostly coffee or tea ☕</div>
+    <div class="option" onclick="selectOption(this,'Water intake')">Less than 2 glasses 💧</div>
+    <div class="option" onclick="selectOption(this,'Water intake')">2–6 glasses 💧💧</div>
+    <div class="option" onclick="selectOption(this,'Water intake')">7–10 glasses 💧💧💧</div>
+    <div class="option" onclick="selectOption(this,'Water intake')">More than 10 glasses ⚡</div>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 6: Sleep -->
+  <div class="step">
+    <h3>How many hours do you usually sleep?</h3>
+    <div class="option" onclick="selectOption(this,'Sleep duration')">Less than 5 hours 😵</div>
+    <div class="option" onclick="selectOption(this,'Sleep duration')">5–6 hours 😑</div>
+    <div class="option" onclick="selectOption(this,'Sleep duration')">7–8 hours 🙂</div>
+    <div class="option" onclick="selectOption(this,'Sleep duration')">More than 8 hours 😴</div>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 7: Steps -->
+  <div class="step">
+    <h3>How many steps do you walk per day on average?</h3>
+    <div class="option" onclick="selectOption(this,'Daily steps')">Under 5,000 steps</div>
+    <div class="option" onclick="selectOption(this,'Daily steps')">5,000 – 10,000 steps</div>
+    <div class="option" onclick="selectOption(this,'Daily steps')">10,000 – 15,000 steps</div>
+    <div class="option" onclick="selectOption(this,'Daily steps')">15,000 – 20,000 steps</div>
+    <div class="option" onclick="selectOption(this,'Daily steps')">More than 20,000 steps 🔥</div>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 8: Issues -->
+  <div class="step">
+    <h3>What held you back in your previous fitness attempts? (You can choose several)</h3>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">Lack of motivation</div>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">Tried hard but saw no progress</div>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">Felt insecure or uncomfortable at the gym</div>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">No clear plan, just random workouts</div>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">Workouts were too hard to sustain</div>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">Bad coaching or poor guidance</div>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">None of the above</div>
+    <button onclick="nextStep()">See Results</button>
+  </div>
+
+  <!-- FINISH -->
+  <div class="step" id="finish">
+    <h2 style="text-align:center; color:#ff652f;">100%</h2>
+    <h3 style="text-align:center;">Quiz completed!</h3>
+    <p>Here is your <strong>EUNBODY lifestyle summary</strong>.</p>
+    <p>Use this to decide your video topics, workout intensity, and nutrition tips.</p>
+    <h4>Answer Summary</h4>
+    <div id="result-box"></div>
+  </div>
+
+</div>
+
+<script>
+let current = 0;
+let answers = {};
+
+const steps = document.querySelectorAll(".step");
+const progress = document.getElementById("prog");
+const resultBox = document.getElementById("result-box");
+
+function updateProgress() {
+  progress.style.width = (current / (steps.length - 1)) * 100 + "%";
+}
+
+function showStep(idx) {
+  steps.forEach(step => step.classList.remove("active"));
+  steps[idx].classList.add("active");
+  updateProgress();
+}
+
+function nextStep() {
+  if (current < steps.length - 1) {
+    current++;
+    if (current === steps.length - 1) {
+      showResult();
+    }
+    showStep(current);
+  }
+}
+
+function selectOption(el, key) {
+  let opts = el.parentNode.querySelectorAll(".option");
+  opts.forEach(o => o.classList.remove("selected"));
+  el.classList.add("selected");
+  answers[key] = el.innerText;
+}
+
+function toggleCheck(el, key) {
+  el.classList.toggle("selected");
+  if (!answers[key]) answers[key] = [];
+  if (el.classList.contains("selected")) answers[key].push(el.innerText);
+  else answers[key] = answers[key].filter(v => v !== el.innerText);
+}
+
+function showResult() {
+  let html = "";
+  Object.entries(answers).forEach(([k,v]) => {
+    if (Array.isArray(v)) v = v.join(", ");
+    html += `<p><strong>${k}</strong>: ${v}</p>`;
+  });
+  resultBox.innerHTML = html || "<p>No options selected.</p>";
+}
+</script>
+</body>
+</html>

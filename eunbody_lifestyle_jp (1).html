@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>EUNBODY – 食事・睡眠・生活習慣チェック（日本語）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { background:#000; color:#fff; font-family:Arial, sans-serif; margin:0; padding:20px; }
+    .container { max-width:700px; margin:0 auto; }
+    .step { display:none; }
+    .active { display:block; }
+    button {
+      background:#ff652f; border:none; padding:10px 20px;
+      color:#fff; font-size:16px; border-radius:8px; cursor:pointer; margin-top:20px;
+    }
+    .option {
+      padding:12px; margin:10px 0; border-radius:8px;
+      background:#111; border:1px solid #555; cursor:pointer;
+    }
+    .option.selected { border-color:#ff652f; background:#331b14; }
+    .progress { height:6px; background:#333; border-radius:4px; margin-bottom:20px; }
+    .progress-inner {
+      height:6px; background:#ff652f; width:0%; border-radius:4px;
+      transition:0.3s ease;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <h2 style="text-align:center;">EUNBODY 食事・睡眠・生活習慣チェック</h2>
+  <p style="text-align:center;">あなたの回答をもとに、よりピッタリ合うトレーニング＆食事コンテンツを作っていきます。</p>
+  <div class="progress"><div class="progress-inner" id="prog"></div></div>
+
+  <!-- STEP 1 -->
+  <div class="step active">
+    <h3>なぜ多くの人はトレーニングを続けられないのか？</h3>
+    <p><strong>一番大きな理由は「最初から飛ばしすぎる」ことです。</strong></p>
+    <p>初日からトレーニングも食事も“完璧”を目指すと、1〜2週間で燃え尽きてしまい、そのままやめてしまいます。</p>
+    <p>EUNBODY のゴールは、<strong>長く続けられる習慣</strong>を作ることであり、「1週間だけの激変」ではありません。</p>
+    <button onclick="nextStep()">次へ</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step">
+    <h3>結果の 50％以上は「食事」で決まります。</h3>
+    <p>効率よく筋肉を増やし、体脂肪を減らすためには：</p>
+    <ul>
+      <li>目標に合った 1 日の総カロリー</li>
+      <li>筋肉の回復・成長に必要なタンパク質</li>
+    </ul>
+    <p>これから、あなたの食事・睡眠・活動量について簡単にチェックしていきます。</p>
+    <button onclick="nextStep()">スタート</button>
+  </div>
+
+  <!-- STEP 3: Eating style -->
+  <div class="step">
+    <h3>ふだんの「食事スタイル」に一番近いものは？</h3>
+    <div class="option" onclick="selectOption(this,'食事スタイル')">感情食い（うれしい時・ストレス時に食べてしまう）</div>
+    <div class="option" onclick="selectOption(this,'食事スタイル')">暇つぶし食い（特にお腹は空いていないが、暇だと何か食べる）</div>
+    <div class="option" onclick="selectOption(this,'食事スタイル')">ながら食い・無意識食い（スマホやテレビを見ながらつい食べ過ぎる）</div>
+    <div class="option" onclick="selectOption(this,'食事スタイル')">習慣型（毎日ほぼ同じ時間・同じようなものを食べる）</div>
+    <button onclick="nextStep()">次へ</button>
+  </div>
+
+  <!-- STEP 4: Protein -->
+  <div class="step">
+    <h3>1 日のタンパク質摂取は足りていると思いますか？</h3>
+    <div class="option" onclick="selectOption(this,'タンパク質摂取')">はい、ある程度タンパク質や栄養バランスを意識している</div>
+    <div class="option" onclick="selectOption(this,'タンパク質摂取')">いいえ、何をどれくらい食べればいいかよく分からない</div>
+    <div class="option" onclick="selectOption(this,'タンパク質摂取')">よく分からない</div>
+    <button onclick="nextStep()">次へ</button>
+  </div>
+
+  <!-- STEP 5: Water -->
+  <div class="step">
+    <h3>1 日にどれくらい水分（白湯＋ノンカロリーのお茶など）を飲みますか？</h3>
+    <div class="option" onclick="selectOption(this,'水分量')">ほとんどコーヒー／お茶だけ ☕</div>
+    <div class="option" onclick="selectOption(this,'水分量')">コップ 2 杯未満 💧</div>
+    <div class="option" onclick="selectOption(this,'水分量')">2〜6 杯 💧💧</div>
+    <div class="option" onclick="selectOption(this,'水分量')">7〜10 杯 💧💧💧</div>
+    <div class="option" onclick="selectOption(this,'水分量')">10 杯以上 ⚡</div>
+    <button onclick="nextStep()">次へ</button>
+  </div>
+
+  <!-- STEP 6: Sleep -->
+  <div class="step">
+    <h3>平均して、1 日何時間くらい眠りますか？</h3>
+    <div class="option" onclick="selectOption(this,'睡眠時間')">5 時間未満 😵</div>
+    <div class="option" onclick="selectOption(this,'睡眠時間')">5〜6 時間 😑</div>
+    <div class="option" onclick="selectOption(this,'睡眠時間')">7〜8 時間 🙂</div>
+    <div class="option" onclick="selectOption(this,'睡眠時間')">8 時間以上 😴</div>
+    <button onclick="nextStep()">次へ</button>
+  </div>
+
+  <!-- STEP 7: Steps -->
+  <div class="step">
+    <h3>1 日あたりの平均歩数は？</h3>
+    <div class="option" onclick="selectOption(this,'1日の歩数')">5,000 歩未満</div>
+    <div class="option" onclick="selectOption(this,'1日の歩数')">5,000 〜 10,000 歩</div>
+    <div class="option" onclick="selectOption(this,'1日の歩数')">10,000 〜 15,000 歩</div>
+    <div class="option" onclick="selectOption(this,'1日の歩数')">15,000 〜 20,000 歩</div>
+    <div class="option" onclick="selectOption(this,'1日の歩数')">20,000 歩以上 🔥</div>
+    <button onclick="nextStep()">次へ</button>
+  </div>
+
+  <!-- STEP 8: Issues -->
+  <div class="step">
+    <h3>これまでトレーニングが続かなかった原因は？（複数選択可）</h3>
+    <div class="option" onclick="toggleCheck(this,'トレーニングの妨げ')">モチベーションがすぐに下がってしまう</div>
+    <div class="option" onclick="toggleCheck(this,'トレーニングの妨げ')">かなり頑張っても、見た目の変化が少なかった</div>
+    <div class="option" onclick="toggleCheck(this,'トレーニングの妨げ')">ジムの雰囲気や人目が気になって落ち着かない</div>
+    <div class="option" onclick="toggleCheck(this,'トレーニングの妨げ')">明確な計画がなく、なんとなくやっていた</div>
+    <div class="option" onclick="toggleCheck(this,'トレーニングの妨げ')">メニューの強度が高すぎて、長く続けられなかった</div>
+    <div class="option" onclick="toggleCheck(this,'トレーニングの妨げ')">コーチ／指導のスタイルが自分に合わなかった</div>
+    <div class="option" onclick="toggleCheck(this,'トレーニングの妨げ')">特に当てはまるものはない</div>
+    <button onclick="nextStep()">結果を見る</button>
+  </div>
+
+  <!-- FINISH -->
+  <div class="step" id="finish">
+    <h2 style="text-align:center; color:#ff652f;">100%</h2>
+    <h3 style="text-align:center;">チェック完了！</h3>
+    <p>こちらがあなたの <strong>EUNBODY ライフスタイル要約</strong> です。</p>
+    <p>この結果をもとに、トレーニング強度・動画テーマ・食事アドバイスなどを決めると効果的です。</p>
+    <h4>回答まとめ</h4>
+    <div id="result-box"></div>
+  </div>
+
+</div>
+
+<script>
+let current = 0;
+let answers = {};
+
+const steps = document.querySelectorAll(".step");
+const progress = document.getElementById("prog");
+const resultBox = document.getElementById("result-box");
+
+function updateProgress() {
+  progress.style.width = (current / (steps.length - 1)) * 100 + "%";
+}
+
+function showStep(idx) {
+  steps.forEach(step => step.classList.remove("active"));
+  steps[idx].classList.add("active");
+  updateProgress();
+}
+
+function nextStep() {
+  if (current < steps.length - 1) {
+    current++;
+    if (current === steps.length - 1) {
+      showResult();
+    }
+    showStep(current);
+  }
+}
+
+function selectOption(el, key) {
+  let opts = el.parentNode.querySelectorAll(".option");
+  opts.forEach(o => o.classList.remove("selected"));
+  el.classList.add("selected");
+  answers[key] = el.innerText;
+}
+
+function toggleCheck(el, key) {
+  el.classList.toggle("selected");
+  if (!answers[key]) answers[key] = [];
+  if (el.classList.contains("selected")) {
+    answers[key].push(el.innerText);
+  } else {
+    answers[key] = answers[key].filter(v => v !== el.innerText);
+  }
+}
+
+function showResult() {
+  let html = "";
+  Object.entries(answers).forEach(([k, v]) => {
+    if (Array.isArray(v)) v = v.join("、");
+    html += `<p><strong>${k}</strong>：${v}</p>`;
+  });
+  resultBox.innerHTML = html || "<p>まだ選択された項目はありません。</p>";
+}
+</script>
+</body>
+</html>

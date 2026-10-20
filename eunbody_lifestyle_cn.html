@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>EUNBODY – 饮食 · 睡眠 · 生活习惯测评（中文）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { background:#000; color:#fff; font-family:Arial, sans-serif; margin:0; padding:20px; }
+    .container { max-width:700px; margin:0 auto; }
+    .step { display:none; }
+    .active { display:block; }
+    button {
+      background:#ff652f; border:none; padding:10px 20px;
+      color:#fff; font-size:16px; border-radius:8px; cursor:pointer; margin-top:20px;
+    }
+    .option {
+      padding:12px; margin:10px 0; border-radius:8px;
+      background:#111; border:1px solid #555; cursor:pointer;
+    }
+    .option.selected { border-color:#ff652f; background:#331b14; }
+    .progress { height:6px; background:#333; border-radius:4px; margin-bottom:20px; }
+    .progress-inner {
+      height:6px; background:#ff652f; width:0%; border-radius:4px;
+      transition:0.3s ease;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <h2 style="text-align:center;">EUNBODY 饮食 · 睡眠 · 生活习惯测评</h2>
+  <p style="text-align:center;">根据你的回答，我们会制作更适合你的训练与饮食内容。</p>
+  <div class="progress"><div class="progress-inner" id="prog"></div></div>
+
+  <!-- STEP 1 -->
+  <div class="step active">
+    <h3>为什么大多数人最后放弃了运动？</h3>
+    <p><strong>最大的原因是：一开始强度定得太高、节奏太快。</strong></p>
+    <p>从第一天就要求自己训练＋饮食“完美无缺”，通常 1〜2 周内就会精疲力尽，然后直接放弃。</p>
+    <p>EUNBODY 的目标不是一周逆袭，而是打造<strong>可以长期坚持的习惯</strong>。</p>
+    <button onclick="nextStep()">下一步</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step">
+    <h3>超过一半的效果，其实来自“饮食”。</h3>
+    <p>想要有效增肌、减脂，需要：</p>
+    <ul>
+      <li>每天总摄入热量与你的目标相匹配</li>
+      <li>足够的蛋白质，用于肌肉修复与生长</li>
+    </ul>
+    <p>接下来，我们会简单了解你的饮食、睡眠和日常活动习惯。</p>
+    <button onclick="nextStep()">开始</button>
+  </div>
+
+  <!-- STEP 3: Eating style -->
+  <div class="step">
+    <h3>下面哪一种最符合你的“吃饭习惯”？</h3>
+    <div class="option" onclick="selectOption(this,'饮食类型')">情绪型进食（开心或压力大时就会吃）</div>
+    <div class="option" onclick="selectOption(this,'饮食类型')">无聊型进食（闲着没事就想找东西吃）</div>
+    <div class="option" onclick="selectOption(this,'饮食类型')">无意识进食（看手机/电视时不知不觉吃很多）</div>
+    <div class="option" onclick="selectOption(this,'饮食类型')">习惯型饮食（每天差不多时间吃差不多的东西）</div>
+    <button onclick="nextStep()">下一步</button>
+  </div>
+
+  <!-- STEP 4: Protein -->
+  <div class="step">
+    <h3>你觉得自己每天蛋白质摄入“够用”吗？</h3>
+    <div class="option" onclick="selectOption(this,'蛋白质摄入')">是的，大概会注意蛋白质和营养搭配</div>
+    <div class="option" onclick="selectOption(this,'蛋白质摄入')">不太够，我也不知道该吃什么、吃多少</div>
+    <div class="option" onclick="selectOption(this,'蛋白质摄入')">不确定</div>
+    <button onclick="nextStep()">下一步</button>
+  </div>
+
+  <!-- STEP 5: Water -->
+  <div class="step">
+    <h3>你每天大概喝多少水？（包括白水＋无糖茶）</h3>
+    <div class="option" onclick="selectOption(this,'饮水量')">基本只喝咖啡/茶 ☕</div>
+    <div class="option" onclick="selectOption(this,'饮水量')">少于 2 杯 💧</div>
+    <div class="option" onclick="selectOption(this,'饮水量')">2〜6 杯 💧💧</div>
+    <div class="option" onclick="selectOption(this,'饮水量')">7〜10 杯 💧💧💧</div>
+    <div class="option" onclick="selectOption(this,'饮水量')">超过 10 杯 ⚡</div>
+    <button onclick="nextStep()">下一步</button>
+  </div>
+
+  <!-- STEP 6: Sleep -->
+  <div class="step">
+    <h3>你平均每天睡多久？</h3>
+    <div class="option" onclick="selectOption(this,'睡眠时间')">少于 5 小时 😵</div>
+    <div class="option" onclick="selectOption(this,'睡眠时间')">5〜6 小时 😑</div>
+    <div class="option" onclick="selectOption(this,'睡眠时间')">7〜8 小时 🙂</div>
+    <div class="option" onclick="selectOption(this,'睡眠时间')">多于 8 小时 😴</div>
+    <button onclick="nextStep()">下一步</button>
+  </div>
+
+  <!-- STEP 7: Steps -->
+  <div class="step">
+    <h3>你平均每天走多少步？</h3>
+    <div class="option" onclick="selectOption(this,'每日步数')">少于 5,000 步</div>
+    <div class="option" onclick="selectOption(this,'每日步数')">5,000 ～ 10,000 步</div>
+    <div class="option" onclick="selectOption(this,'每日步数')">10,000 ～ 15,000 步</div>
+    <div class="option" onclick="selectOption(this,'每日步数')">15,000 ～ 20,000 步</div>
+    <div class="option" onclick="selectOption(this,'每日步数')">20,000 步以上 🔥</div>
+    <button onclick="nextStep()">下一步</button>
+  </div>
+
+  <!-- STEP 8: Issues -->
+  <div class="step">
+    <h3>你之前在坚持锻炼时，遇到过哪些问题？（可多选）</h3>
+    <div class="option" onclick="toggleCheck(this,'运动阻碍因素')">动力很快就消失</div>
+    <div class="option" onclick="toggleCheck(this,'运动阻碍因素')">坚持很久也看不到明显变化</div>
+    <div class="option" onclick="toggleCheck(this,'运动阻碍因素')">在健身房感到不安或不自在</div>
+    <div class="option" onclick="toggleCheck(this,'运动阻碍因素')">没有清晰计划，只是乱练</div>
+    <div class="option" onclick="toggleCheck(this,'运动阻碍因素')">训练强度太大，无法长期坚持</div>
+    <div class="option" onclick="toggleCheck(this,'运动阻碍因素')">教练/指导不适合我</div>
+    <div class="option" onclick="toggleCheck(this,'运动阻碍因素')">以上都没有</div>
+    <button onclick="nextStep()">查看结果</button>
+  </div>
+
+  <!-- FINISH -->
+  <div class="step" id="finish">
+    <h2 style="text-align:center; color:#ff652f;">100%</h2>
+    <h3 style="text-align:center;">测评完成！</h3>
+    <p>下面是你的 <strong>EUNBODY 生活方式概要</strong>：</p>
+    <p>你可以根据这些结果，调整自己的训练强度、内容以及饮食重点。</p>
+    <h4>回答总结</h4>
+    <div id="result-box"></div>
+  </div>
+
+</div>
+
+<script>
+let current = 0;
+let answers = {};
+
+const steps = document.querySelectorAll(".step");
+const progress = document.getElementById("prog");
+const resultBox = document.getElementById("result-box");
+
+function updateProgress() {
+  progress.style.width = (current / (steps.length - 1)) * 100 + "%";
+}
+
+function showStep(idx) {
+  steps.forEach(step => step.classList.remove("active"));
+  steps[idx].classList.add("active");
+  updateProgress();
+}
+
+function nextStep() {
+  if (current < steps.length - 1) {
+    current++;
+    if (current === steps.length - 1) {
+      showResult();
+    }
+    showStep(current);
+  }
+}
+
+function selectOption(el, key) {
+  let opts = el.parentNode.querySelectorAll(".option");
+  opts.forEach(o => o.classList.remove("selected"));
+  el.classList.add("selected");
+  answers[key] = el.innerText;
+}
+
+function toggleCheck(el, key) {
+  el.classList.toggle("selected");
+  if (!answers[key]) answers[key] = [];
+  if (el.classList.contains("selected")) {
+    answers[key].push(el.innerText);
+  } else {
+    answers[key] = answers[key].filter(v => v !== el.innerText);
+  }
+}
+
+function showResult() {
+  let html = "";
+  Object.entries(answers).forEach(([k, v]) => {
+    if (Array.isArray(v)) v = v.join("，");
+    html += `<p><strong>${k}</strong>：${v}</p>`;
+  });
+  resultBox.innerHTML = html || "<p>尚未选择任何选项。</p>";
+}
+</script>
+</body>
+</html>

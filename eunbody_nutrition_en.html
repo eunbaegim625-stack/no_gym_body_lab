@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>EUNBODY – Nutrition & Lifestyle Quiz (EN)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { background:#000; color:#fff; font-family:Arial, sans-serif; margin:0; padding:20px; }
+    .container { max-width:700px; margin:0 auto; }
+    .step { display:none; }
+    .active { display:block; }
+    button {
+      background:#ff652f; border:none; padding:10px 20px;
+      color:#fff; font-size:16px; border-radius:8px; cursor:pointer; margin-top:20px;
+    }
+    .option {
+      padding:12px; margin:10px 0; border-radius:8px;
+      background:#111; border:1px solid #555; cursor:pointer;
+    }
+    .option.selected { border-color:#ff652f; background:#331b14; }
+    .progress { height:6px; background:#333; border-radius:4px; margin-bottom:20px; }
+    .progress-inner {
+      height:6px; background:#ff652f; width:0%; border-radius:4px;
+      transition:0.3s ease;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <h2 style="text-align:center;">EUNBODY – Nutrition · Sleep · Lifestyle Quiz</h2>
+  <p style="text-align:center;">Your answers will help EUNBODY tailor training & nutrition content to your real life.</p>
+  <div class="progress"><div class="progress-inner" id="prog"></div></div>
+
+  <!-- STEP 1 -->
+  <div class="step active">
+    <h3>Why do most people end up quitting training?</h3>
+    <p><strong>The biggest reason: they start too hard and too fast.</strong></p>
+    <p>When you try to be “perfect” with workouts and diet from day one, you burn out in 1–2 weeks and eventually give up.</p>
+    <p>EUNBODY’s goal is not a 1-week transformation, but <strong>habits you can keep long-term</strong>.</p>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step">
+    <h3>More than half of your results come from nutrition.</h3>
+    <p>To build muscle and lose fat efficiently, you need:</p>
+    <ul>
+      <li>Daily calories that match your goal</li>
+      <li>Enough protein for muscle repair and growth</li>
+    </ul>
+    <p>Now we’ll quickly check your eating habits, sleep, and daily activity.</p>
+    <button onclick="nextStep()">Start</button>
+  </div>
+
+  <!-- STEP 3: Eating style -->
+  <div class="step">
+    <h3>Which eating style describes you best?</h3>
+    <div class="option" onclick="selectOption(this,'Eating style')">Emotional eater (eat more when happy, sad, or stressed)</div>
+    <div class="option" onclick="selectOption(this,'Eating style')">Bored eater (snack when you’re bored, not really hungry)</div>
+    <div class="option" onclick="selectOption(this,'Eating style')">Mindless eater (eat a lot while watching phone/TV without noticing)</div>
+    <div class="option" onclick="selectOption(this,'Eating style')">Habit eater (similar foods at similar times every day)</div>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 4: Protein -->
+  <div class="step">
+    <h3>Do you think you get enough protein each day?</h3>
+    <div class="option" onclick="selectOption(this,'Protein intake')">Yes – I roughly pay attention to protein and nutrition</div>
+    <div class="option" onclick="selectOption(this,'Protein intake')">No – I don’t really know what or how much I should eat</div>
+    <div class="option" onclick="selectOption(this,'Protein intake')">Not sure</div>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 5: Water -->
+  <div class="step">
+    <h3>How much water do you drink per day? (Water + zero-cal tea)</h3>
+    <div class="option" onclick="selectOption(this,'Water intake')">Mostly coffee / tea only ☕</div>
+    <div class="option" onclick="selectOption(this,'Water intake')">Less than 2 cups 💧</div>
+    <div class="option" onclick="selectOption(this,'Water intake')">2–6 cups 💧💧</div>
+    <div class="option" onclick="selectOption(this,'Water intake')">7–10 cups 💧💧💧</div>
+    <div class="option" onclick="selectOption(this,'Water intake')">More than 10 cups ⚡</div>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 6: Sleep -->
+  <div class="step">
+    <h3>On average, how many hours do you sleep per night?</h3>
+    <div class="option" onclick="selectOption(this,'Sleep duration')">Less than 5 hours 😵</div>
+    <div class="option" onclick="selectOption(this,'Sleep duration')">5–6 hours 😑</div>
+    <div class="option" onclick="selectOption(this,'Sleep duration')">7–8 hours 🙂</div>
+    <div class="option" onclick="selectOption(this,'Sleep duration')">More than 8 hours 😴</div>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 7: Steps -->
+  <div class="step">
+    <h3>How many steps do you walk per day on average?</h3>
+    <div class="option" onclick="selectOption(this,'Daily steps')">Under 5,000 steps</div>
+    <div class="option" onclick="selectOption(this,'Daily steps')">5,000 – 10,000 steps</div>
+    <div class="option" onclick="selectOption(this,'Daily steps')">10,000 – 15,000 steps</div>
+    <div class="option" onclick="selectOption(this,'Daily steps')">15,000 – 20,000 steps</div>
+    <div class="option" onclick="selectOption(this,'Daily steps')">More than 20,000 steps 🔥</div>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 8: Issues -->
+  <div class="step">
+    <h3>What problems have you experienced when trying to work out before? (You can choose several)</h3>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">Motivation dropped quickly</div>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">Worked hard but saw almost no visible changes</div>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">Felt insecure or uncomfortable at the gym</div>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">No clear plan – just did random workouts</div>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">Workout was too intense to sustain</div>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">Coach / trainer style didn’t fit me</div>
+    <div class="option" onclick="toggleCheck(this,'Barriers')">None of the above</div>
+    <button onclick="nextStep()">See Results</button>
+  </div>
+
+  <!-- FINISH -->
+  <div class="step" id="finish">
+    <h2 style="text-align:center; color:#ff652f;">100%</h2>
+    <h3 style="text-align:center;">Nutrition & lifestyle profile complete!</h3>
+    <p>This is your <strong>EUNBODY lifestyle summary</strong>.</p>
+    <p>You can use this to decide realistic training intensity, diet focus, and recovery goals.</p>
+    <h4>Answer Summary</h4>
+    <div id="result-box"></div>
+  </div>
+
+</div>
+
+<script>
+let current = 0;
+let answers = {};
+
+const steps = document.querySelectorAll(".step");
+const progress = document.getElementById("prog");
+const resultBox = document.getElementById("result-box");
+
+function updateProgress() {
+  progress.style.width = (current / (steps.length - 1)) * 100 + "%";
+}
+
+function showStep(idx) {
+  steps.forEach(step => step.classList.remove("active"));
+  steps[idx].classList.add("active");
+  updateProgress();
+}
+
+function nextStep() {
+  if (current < steps.length - 1) {
+    current++;
+    if (current === steps.length - 1) {
+      showResult();
+    }
+    showStep(current);
+  }
+}
+
+function selectOption(el, key) {
+  let opts = el.parentNode.querySelectorAll(".option");
+  opts.forEach(o => o.classList.remove("selected"));
+  el.classList.add("selected");
+  answers[key] = el.innerText;
+}
+
+function toggleCheck(el, key) {
+  el.classList.toggle("selected");
+  if (!answers[key]) answers[key] = [];
+  if (el.classList.contains("selected")) {
+    answers[key].push(el.innerText);
+  } else {
+    answers[key] = answers[key].filter(v => v !== el.innerText);
+  }
+}
+
+function showResult() {
+  let html = "";
+  Object.entries(answers).forEach(([k, v]) => {
+    if (Array.isArray(v)) v = v.join(", ");
+    html += `<p><strong>${k}</strong>: ${v}</p>`;
+  });
+  resultBox.innerHTML = html || "<p>No options selected.</p>";
+}
+</script>
+</body>
+</html>
